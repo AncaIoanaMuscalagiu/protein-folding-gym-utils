@@ -285,7 +285,7 @@ def plot_3D_foleded_protein(labelled_conf):
 
     plt.show()
 
-def moving_average(a, n=n):
+def moving_average(a, n=2):
     ret = np.cumsum(a, dtype=float)
     ret[n:] = ret[n:] - ret[:-n]
     return ret[n - 1:] / n
