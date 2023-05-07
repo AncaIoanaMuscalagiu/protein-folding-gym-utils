@@ -86,7 +86,7 @@ def plot_print_rewards_stats(rewards_all_episodes,
     plt.close()
 
 
-def plot_2D_folded_protein(labelled_conf, file_name):
+def plot_2D_folded_protein(labelled_conf):
     """
     input:
         labelled_conf:
@@ -170,21 +170,7 @@ def plot_2D_folded_protein(labelled_conf, file_name):
         markersize=14,
         label="P",
     )
-
     plt.show()
-    save_2d_protein_to_xyz(labelled_conf, file_name)
-
-
-def save_2d_protein_to_xyz(labelled_conf, output_file_name):
-    output_file = open(output_file_name, "w")
-    for atom_item in labelled_conf:
-        coords, atom = atom_item
-        x, y = coords
-        z = 0
-        output_file.write("{}\t {}\t {}\t {}\t\n".format(atom, x, y, z))
-    output_file.close()
-
-
 def plot_3D_foleded_protein(labelled_conf):
     """
     input:
