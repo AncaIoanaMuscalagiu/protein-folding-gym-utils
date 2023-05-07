@@ -1,0 +1,34 @@
+version: 2.1
+orbs:
+  python: circleci/python@0.3.2
+jobs:
+  build_test:
+    executor: python/default
+    steps:
+      - checkout # checkout source code to working directory
+      - python/load-cache
+      - python/install-deps
+      - python/save-cache
+  publish-to-testpypi:
+    executor: python/default
+    steps:
+      - checkout # checkout source code to working directory
+      - run:
+          name: Publish to TestPypi
+          command: |
+            python3 setup.py sdist bdist_wheel
+            pip install pipenv
+            pipenv install twine
+            pipenv run twine upload --repository testpypi dist/*
+
+workflows:
+  build_test_publish:
+    jobs:
+      - build_test
+      - publish-to-testpypi:
+          requires:
+            - build_test
+          filters:
+            branches:
+              only:
+                - main

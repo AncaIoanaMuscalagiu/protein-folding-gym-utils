@@ -1,0 +1,1 @@
+from .input_handler import extract_hydropolar_sequence_from_pdb, extract_hydropolar_sequence_from_fasta
