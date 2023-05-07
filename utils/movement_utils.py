@@ -24,6 +24,18 @@ ACTION_TO_MEANING_TRIANGULAR = {
 
 
 def move_to_new_state_lrf(previous_move_direction, state, action):
+    """
+    Computes the new state of the agent given the current state, action, and previous move direction in the LRF 2D environment.
+
+    Args:
+        previous_move_direction (tuple): The previous move direction of the agent.
+        state (tuple): The current state of the agent.
+        action (int): The chosen action to take.
+
+    Returns:
+        tuple: A tuple containing the new move direction and the new state.
+
+    """
     if action not in {1, 2, 3}:
         return
 
@@ -37,6 +49,18 @@ def move_to_new_state_lrf(previous_move_direction, state, action):
 
 
 def move_to_new_state_3d(p1, p2, move_direction):
+    """
+    Computes the new state of the agent given the current state, action, and previous move direction in the 3D environment.
+
+    Args:
+        p1 (tuple): The current position of the agent.
+        p2 (tuple): The previous position of the agent.
+        move_direction (int): The chosen action to take.
+
+    Returns:
+        tuple: A tuple containing the new state.
+
+    """
     if move_direction not in {1, 2, 3, 4, 5, 6}:
         return
     x1, y1, z1 = p1
@@ -49,6 +73,18 @@ def move_to_new_state_3d(p1, p2, move_direction):
 
 
 def move_to_new_state_2d(p1, p2, move_direction):
+    """
+    Computes the new state of the agent given the current state, action, and previous move direction in the 2D environment.
+
+    Args:
+        p1 (tuple): The current position of the agent.
+        p2 (tuple): The previous position of the agent.
+        move_direction (int): The chosen action to take.
+
+    Returns:
+        tuple: A tuple containing the new state.
+
+    """
     if move_direction not in {1, 2, 3, 4}:
         return
 
@@ -61,6 +97,18 @@ def move_to_new_state_2d(p1, p2, move_direction):
 
 
 def move_to_new_state_triangular(p1, p2, move_direction):
+    """
+    Computes the new state of the agent given the current state, action, and previous move direction in the triangular environment.
+
+    Args:
+        p1 (tuple): The current position of the agent.
+        p2 (tuple): The previous position of the agent.
+        move_direction (int): The chosen action to take.
+
+    Returns:
+        tuple: A tuple containing the new state.
+
+    """
     if move_direction not in {1, 2, 3, 4, 5, 6}:
         return
 

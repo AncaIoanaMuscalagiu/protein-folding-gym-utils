@@ -11,6 +11,13 @@ from utils.movement_utils import move_to_new_state_lrf
 
 class ProteinFoldingLRF2DEnv(ProteinFolding2DEnv):
     def __init__(self, seq):
+        """
+        Initializes a new instance of the ProteinFoldingLRF2DEnv class.
+
+        Parameters:
+        seq (str): The amino acid sequence of the protein to fold.
+
+        """
         super().__init__(seq)
         self.action_space = spaces.Discrete(start=1, n=3)
         self.observation_space = spaces.Box(low=0, high=3,
@@ -18,6 +25,19 @@ class ProteinFoldingLRF2DEnv(ProteinFolding2DEnv):
                                             dtype=int)
 
     def step(self, action):
+        """
+        Executes one step within the environment.
+
+        Parameters:
+        action (int): The action to execute.
+
+        Returns:
+        obs (numpy.ndarray): The current observation of the environment.
+        reward (float): The reward earned by the agent.
+        done (bool): Whether the environment is in a terminal state.
+        info (dict): Optional additional information.
+
+        """
         if not self.action_space.contains(action):
             raise ValueError("%r (%s) invalid" % (action, type(action)))
 
@@ -37,11 +57,28 @@ class ProteinFoldingLRF2DEnv(ProteinFolding2DEnv):
         return self.get_observation_info(next_state)
 
     def reset(self):
+        """
+        Resets the environment to an initial state.
+
+        Returns:
+        obs (numpy.ndarray): The current observation of the environment.
+
+        """
         obs = super().reset()
         self.move_direction = (0, 1)
         return obs
 
     def _get_adjacent_coords(self, coords):
+        """
+        Gets the adjacent coordinates for a given set of coordinates.
+
+        Parameters:
+        coords (tuple): The coordinates for which to get the adjacent coordinates.
+
+        Returns:
+        adjacent_coords (dict): A dictionary containing the adjacent coordinates.
+
+        """
         x, y = coords
         adjacent_coords = {
             0: (x - 1, y),

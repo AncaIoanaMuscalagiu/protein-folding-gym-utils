@@ -5,6 +5,8 @@ from .environement_triunghiular import ProteinFoldingTriangularEnv
 from .environment_2d import ProteinFoldingSquareEnv
 from .environment_3d import ProteinFolding3DEnv
 from .environment_LRF import ProteinFoldingLRF2DEnv
+
+#register all custom environments
 register(
     id='ProteinFoldingSquareEnv',
     entry_point='protein_folding_environment.environment_2d:ProteinFoldingSquareEnv',

@@ -32,6 +32,15 @@ d3to1 = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
 class InputHandler:
     @staticmethod
     def extract_hydropolar_sequence_from_pdb(file_name):
+        """
+                Extracts the hydropolar sequence of an amino acid chain from a PDB file.
+
+                Args:
+                    file_name (str): The path to the PDB file.
+
+                Returns:
+                    str: The hydropolar sequence of the amino acid chain.
+                """
         amino_acid_sequence = ""
         previous_chain = ""
         chain = ""
@@ -52,6 +61,15 @@ class InputHandler:
 
     @staticmethod
     def extract_hydropolar_sequence_from_fasta(file_name):
+        """
+                Extracts the hydropolar sequence of an amino acid chain from a FASTA file.
+
+                Args:
+                    file_name (str): The path to the FASTA file.
+
+                Returns:
+                    str: The hydropolar sequence of the amino acid chain.
+                """
         amino_acid_sequence = ""
         index = 0
         for seq_record in SeqIO.parse(file_name, "fasta"):

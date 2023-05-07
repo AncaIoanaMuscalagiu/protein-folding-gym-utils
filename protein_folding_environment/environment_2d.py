@@ -10,12 +10,41 @@ from utils.movement_utils import move_to_new_state_2d
 
 class ProteinFoldingSquareEnv(ProteinFolding2DEnv):
     def __init__(self, seq):
+        """
+        Initializes an instance of the `ProteinFoldingSquareEnv` class with a protein sequence `seq`.
+
+        Args:
+        - seq (str): the protein sequence to be folded.
+
+        Calls the `__init__` method of the base class `ProteinFolding2DEnv` and sets the following instance variables:
+        - self.action_space (Discrete): a discrete action space representing the four possible moves in a square lattice.
+        - self.observation_space (Box): a box observation space representing the current chain of amino acids in the protein sequence.
+        """
         super().__init__(seq)
         self.action_space = spaces.Discrete(start=1, n=4)
         self.observation_space = spaces.Box(low=0, high=3,
                                             shape=(len(self.seq) - 2,),
                                             dtype=int)
+
     def step(self, action):
+        """
+        Advances the environment by one step given an action.
+
+        Args:
+        - action (int): the action to take.
+
+        Returns:
+        - obs (numpy array): the current observation of the environment.
+        - reward (float): the reward value for the current state of the environment.
+        - done (bool): a flag indicating whether the episode is over.
+        - False (bool): a flag indicating whether the environment has successfully reset.
+        - info (dict): a dictionary containing information about the current state of the environment.
+
+        If `action` is not a valid action, raises a `ValueError`.
+        Calculates the next state of the protein chain using `move_to_new_state_2d()` based on the current state and the proposed action and updates the environment's state with the next state.
+        If `next_state` is None or already in the state dictionary, returns `(None, None, False, False, {})`.
+        Appends `action` to the list of actions taken so far and calls `self.get_observation_info(next_state)` to get the current observation, reward, done flag, and info dictionary based on the current state of the environment and the proposed next state.
+        """
         if not self.action_space.contains(action):
             raise ValueError("%r (%s) invalid" % (action, type(action)))
         previous = list(self.state.keys())[-1]
@@ -37,6 +66,17 @@ class ProteinFoldingSquareEnv(ProteinFolding2DEnv):
         return self.get_observation_info(next_state)
 
     def _get_adjacent_coords(self, coords):
+        """
+        Returns a dictionary containing the adjacent coordinates of a given set of coordinates in a square lattice.
+
+        Args:
+        - coords (tuple): the coordinates to get adjacent coordinates for.
+
+        Returns:
+        - adjacent_coords (dict): a dictionary containing the adjacent coordinates of `coords`.
+
+        Calculates the adjacent coordinates of `coords` in a square lattice and returns them as a dictionary.
+        """
         x, y = coords
         adjacent_coords = {
             0: (x - 1, y),

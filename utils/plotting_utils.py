@@ -11,6 +11,19 @@ def plot_print_rewards_stats(rewards_all_episodes,
                              args,
                              mode="show",
                              save_path="./rewards"):
+    """
+    Plot and print the rewards statistics over the course of training.
+
+    Args:
+        rewards_all_episodes (list): List of rewards for each episode.
+        show_every (int): Number of episodes after which to print the statistics.
+        args (Namespace): Namespace object containing the parsed arguments.
+        mode (str): Plotting mode: "show" to display the plot, "save" to save it to a file (default: "show").
+        save_path (str): Path to the directory to save the plot (default: "./rewards").
+
+    Returns:
+        None
+    """
     # unpack the args
     seq = args.seq
     seed = args.seed
@@ -92,10 +105,6 @@ def plot_2D_folded_protein(labelled_conf):
         labelled_conf:
             transformed file sequence of xy coords with state:
             ((x,y), 'H|P')
-            e.g:
-            [((0, 0), 'H'),
-            ((0, 1), 'H'),...
-            ((3, 1), 'P')]
     output:
         plot.show
     """
@@ -176,11 +185,7 @@ def plot_3D_foleded_protein(labelled_conf):
     input:
         labelled_conf:
             transformed file sequence of xy coords with state:
-            ((x,y), 'H|P')
-            e.g:
-            [((0, 0), 'H'),
-            ((0, 1), 'H'),...
-            ((3, 1), 'P')]
+            ((x,y,z), 'H|P')
     output:
         plot.show
     """
@@ -272,10 +277,32 @@ def plot_3D_foleded_protein(labelled_conf):
     plt.show()
 
 def moving_average(a, n=2):
+    """
+    Computes the moving average of a list of numbers.
+
+    Parameters:
+    a (list): A list of numbers.
+    n (int): The size of the window to compute the moving average.
+
+    Returns:
+    numpy.ndarray: A numpy array with the moving average of the input list.
+    """
     ret = np.cumsum(a, dtype=float)
     ret[n:] = ret[n:] - ret[:-n]
     return ret[n - 1:] / n
 def plot_moving_avg(scores, n=2, mode="show", save_path="./avg-rewards"):
+    """
+    Plots the moving average of a list of scores.
+
+    Parameters:
+    scores (list): A list of scores.
+    n (int): The size of the window to compute the moving average. Default is 2.
+    mode (str): The mode of the plot: "show" to show the plot or "save" to save it to disk. Default is "show".
+    save_path (str): The path to save the plot. Default is "./avg-rewards".
+
+    Returns:
+    None.
+    """
     print("means = ", scores.mean())
 
     plt.plot(moving_average(scores, n=n))
@@ -283,7 +310,7 @@ def plot_moving_avg(scores, n=2, mode="show", save_path="./avg-rewards"):
     if mode == "show":
         plt.show()
     elif mode == "save":
-        # save the pdf fig with seq name
+        # save the png fig with window size
         plt.savefig("{}-{}.png".format(
             save_path,  # "./xxx"
             n
@@ -292,6 +319,16 @@ def plot_moving_avg(scores, n=2, mode="show", save_path="./avg-rewards"):
 
 
 def plot_loss(episodes, losses):
+    """
+    Plots the loss values of a reinforcement learning model.
+
+    Parameters:
+    episodes (list): A list of episode numbers.
+    losses (list): A list of loss values.
+
+    Returns:
+    None.
+    """
     fig, subplot = plt.subplots()
 
     subplot.set_xlabel('Episode Index')
