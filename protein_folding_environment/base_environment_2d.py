@@ -2,7 +2,7 @@ from collections import OrderedDict
 from gym import (spaces)
 
 from protein_folding_environment.base_environment import ProteinFoldingBaseEnv
-from utils.plotting_utils import plot_2D_foleded_protein
+from utils.plotting_utils import plot_2D_folded_protein
 
 class ProteinFolding2DEnv(ProteinFoldingBaseEnv):
     def __init__(self, seq):
@@ -23,6 +23,6 @@ class ProteinFolding2DEnv(ProteinFoldingBaseEnv):
 
     def render(self, mode='human'):
         if mode == "human":
-            plot_2D_foleded_protein(
+            plot_2D_folded_protein(
                 list(self.state.items()),
             )

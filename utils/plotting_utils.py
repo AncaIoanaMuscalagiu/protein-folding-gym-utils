@@ -10,7 +10,7 @@ def plot_print_rewards_stats(rewards_all_episodes,
                              show_every,
                              args,
                              mode="show",
-                             save_path=""):
+                             save_path="./rewards"):
     # unpack the args
     seq = args.seq
     seed = args.seed
@@ -69,9 +69,6 @@ def plot_print_rewards_stats(rewards_all_episodes,
     seq_title_list = [
         seq[i:i + chunk_size] + "\n" for i in range(0, chunks, chunk_size)
     ]
-    seq_title_str = ''.join(seq_title_list)
-
-    # print("Title: ", title)
 
     plt.grid(True, which="major", lw=1.2, linestyle='-')
     plt.grid(True, which="minor", lw=0.8, linestyle='--')
@@ -80,7 +77,7 @@ def plot_print_rewards_stats(rewards_all_episodes,
         plt.show()
     elif mode == "save":
         # save the pdf fig with seq name
-        plt.savefig("{}Seq_{}-{}-Eps{}-Seed{}.png".format(
+        plt.savefig("{}-{}-{}-{}.png".format(
             save_path,  # "./xxx"
             seq,
             num_episodes,
@@ -89,7 +86,7 @@ def plot_print_rewards_stats(rewards_all_episodes,
     plt.close()
 
 
-def plot_2D_foleded_protein(labelled_conf, file_name):
+def plot_2D_folded_protein(labelled_conf, file_name):
     """
     input:
         labelled_conf:
@@ -106,7 +103,6 @@ def plot_2D_foleded_protein(labelled_conf, file_name):
     plt.rc('axes', labelsize=18)
     plt.rc('xtick', labelsize=18)
     plt.rc('ytick', labelsize=18)
-
 
     fig = plt.figure()
     subplot = fig.add_subplot()
@@ -125,8 +121,8 @@ def plot_2D_foleded_protein(labelled_conf, file_name):
     min_yval = np.min(y)
 
     total_min = min(min_xval, min_yval)
-    subplot.set_xlim(total_min - 0.1, total_max+0.1)
-    subplot.set_ylim(total_min - 0.1, total_max+0.1 )
+    subplot.set_xlim(total_min - 0.1, total_max + 0.1)
+    subplot.set_ylim(total_min - 0.1, total_max + 0.1)
 
     subplot.set_aspect('equal')  # , adjustable='box')
 
@@ -163,7 +159,7 @@ def plot_2D_foleded_protein(labelled_conf, file_name):
                 if current_amino_acid_i == 'H' and current_amino_acid_j == 'H' and (
                         abs(x_i - x_j) + abs(y_i - y_j) == 1):
                     subplot.plot([x_i, x_j], [y_i, y_j], '--', color='mediumblue')
-                    subplot.plot([x_i, x_j], [y_i, y_j], 'o', color='mediumblue', markersize=14,)
+                    subplot.plot([x_i, x_j], [y_i, y_j], 'o', color='mediumblue', markersize=14, )
 
     subplot.plot(
         [p[0] for p in P_points],
@@ -176,7 +172,8 @@ def plot_2D_foleded_protein(labelled_conf, file_name):
     )
 
     plt.show()
-    save_2d_protein_to_xyz(labelled_conf,file_name)
+    save_2d_protein_to_xyz(labelled_conf, file_name)
+
 
 def save_2d_protein_to_xyz(labelled_conf, output_file_name):
     output_file = open(output_file_name, "w")
@@ -201,7 +198,6 @@ def plot_3D_foleded_protein(labelled_conf):
     output:
         plot.show
     """
-
 
     plt.rc('axes', labelsize=25)
     plt.rc('xtick', labelsize=21)
@@ -229,12 +225,9 @@ def plot_3D_foleded_protein(labelled_conf):
     subplot.set_ylim(total_min, total_max)
     subplot.set_zlim(total_min, total_max)
 
-
     subplot.grid(linewidth=0.6, linestyle=':')
 
-
     subplot.set_aspect('equal')  # , adjustable='box')
-
 
     subplot.xaxis.set_major_locator(ticker.MultipleLocator(1))
     subplot.yaxis.set_major_locator(ticker.MultipleLocator(1))
@@ -244,14 +237,12 @@ def plot_3D_foleded_protein(labelled_conf):
     subplot.set_ylabel("y coord")
     subplot.set_zlabel("z coord")
 
-
     subplot.plot(
         x, y, z,
         color='cornflowerblue',
         linewidth=4,
         label="backbone",
     )
-
 
     subplot.plot(
         [h[0] for h in H_points],
@@ -289,7 +280,38 @@ def plot_3D_foleded_protein(labelled_conf):
                 z_j = current_place_j[2]
                 if current_amino_acid_i == 'H' and current_amino_acid_j == 'H' and (
                         abs(x_i - x_j) + abs(y_i - y_j) + abs(z_i - z_j) == 1):
-                    subplot.plot([x_i, x_j], [y_i, y_j],[z_i,z_j], '--', color='mediumblue')
-                    subplot.plot([x_i, x_j], [y_i, y_j], [z_i,z_j], 'o', color='mediumblue', markersize=14, )
+                    subplot.plot([x_i, x_j], [y_i, y_j], [z_i, z_j], '--', color='mediumblue')
+                    subplot.plot([x_i, x_j], [y_i, y_j], [z_i, z_j], 'o', color='mediumblue', markersize=14, )
 
     plt.show()
+
+def moving_average(a, n=n):
+    ret = np.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:-n]
+    return ret[n - 1:] / n
+def plot_moving_avg(scores, n=2, mode="show", save_path="./avg-rewards"):
+    print("means = ", scores.mean())
+
+    plt.plot(moving_average(scores, n=n))
+
+    if mode == "show":
+        plt.show()
+    elif mode == "save":
+        # save the pdf fig with seq name
+        plt.savefig("{}-{}.png".format(
+            save_path,  # "./xxx"
+            n
+        ))
+    plt.close()
+
+
+def plot_loss(episodes, losses):
+    fig, subplot = plt.subplots()
+
+    subplot.set_xlabel('Episode Index')
+    subplot.set_ylabel('Episode Loss')
+
+    subplot.plot(episodes, losses, label="Losses")
+
+    plt.show()
+    plt.close()
