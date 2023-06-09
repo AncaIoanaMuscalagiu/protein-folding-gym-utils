@@ -5,7 +5,7 @@ DESCRIPTION = 'Package with Reinforcement Learning Environments for Protein Fold
 LONG_DESCRIPTION = 'Python Library implementing various Gym Environments for solving the Protein Folding Problem using Reinforcement Learning'
 
 setup(
-    name="protein-folding-gym-utilities",
+    name="protein-folding-gym-utils",
     version=VERSION,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
