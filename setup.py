@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.9'
+VERSION = '0.0.1'
 DESCRIPTION = 'Package with Reinforcement Learning Environments for Protein Folding'
 LONG_DESCRIPTION = 'Python Library implementing various Gym Environments for solving the Protein Folding Problem using Reinforcement Learning'
 

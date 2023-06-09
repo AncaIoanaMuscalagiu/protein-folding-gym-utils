@@ -9,23 +9,23 @@ jobs:
       - python/load-cache
       - python/install-deps
       - python/save-cache
-  publish-to-testpypi:
+  publish-to-pypi:
     executor: python/default
     steps:
       - checkout # checkout source code to working directory
       - run:
-          name: Publish to TestPypi
+          name: Publish to Pypi
           command: |
             python3 setup.py sdist bdist_wheel
             pip install pipenv
             pipenv install twine
-            pipenv run twine upload --repository testpypi dist/*
+            pipenv run twine upload dist/*
 
 workflows:
   build_test_publish:
     jobs:
       - build_test
-      - publish-to-testpypi:
+      - publish-to-pypi:
           requires:
             - build_test
           filters:
