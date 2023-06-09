@@ -19,7 +19,11 @@ ATOM_TO_HYDROPHOBICITY = {
     'N': 'P',
     'Q': 'P',
     'Y': 'P',
-    'X': ''
+    'X': 'P',
+    'R': 'P',
+    'H': 'P',
+    'K': 'P',
+    'D': 'P'
 }
 
 d3to1 = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
@@ -43,14 +47,14 @@ class InputHandler:
                 """
         amino_acid_sequence = ""
         previous_chain = ""
-        chain = ""
         with open(file_name) as f:
             for matched_line in re.findall('^SEQRES.*$', f.read(), re.MULTILINE):
                 tokens = matched_line.split()
                 chain = tokens[2]
                 if previous_chain != "" and chain != previous_chain:
                     print(
-                        "Warning: The model works only with single-chain proteins. The input will be truncated to use the first chain. ")
+                        "Warning: The model works only with single-chain proteins. "
+                        "The input will be truncated to use the first chain. ")
                     break
                 tokens = tokens[4:]
                 amino_acid_sequence = ''.join([d3to1[t] if t in d3to1.keys() else '' for t in tokens])
@@ -75,10 +79,15 @@ class InputHandler:
         for seq_record in SeqIO.parse(file_name, "fasta"):
             if index > 0:
                 print(
-                    "Warning: The model works only with single-chain proteins. The input will be truncated to use the first chain. ")
+                    "Warning: The model works only with single-chain proteins. "
+                    "The input will be truncated to use the first chain. ")
                 break
             sequence = seq_record.seq
             amino_acid_sequence = ''.join([ATOM_TO_HYDROPHOBICITY[t] for t in sequence])
             index += 1
 
         return amino_acid_sequence
+
+seq = InputHandler.extract_hydropolar_sequence_from_fasta('/Users/ancaioanamuscalagiu/Documents/licenta/ProteinFolding/known_proteins/fasta/rcsb_pdb_1A1P.fasta')
+
+print(seq)

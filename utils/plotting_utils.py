@@ -224,9 +224,9 @@ def plot_3D_foleded_protein(labelled_conf):
     subplot.yaxis.set_major_locator(ticker.MultipleLocator(1))
     subplot.zaxis.set_major_locator(ticker.MultipleLocator(1))
 
-    subplot.set_xlabel("x coord")
-    subplot.set_ylabel("y coord")
-    subplot.set_zlabel("z coord")
+    subplot.set_xlabel("Ox")
+    subplot.set_ylabel("Oy")
+    subplot.set_zlabel("Oz")
 
     subplot.plot(
         x, y, z,
@@ -304,7 +304,8 @@ def plot_moving_avg(scores, n=2, mode="show", save_path="./avg-rewards"):
     None.
     """
     print("means = ", scores.mean())
-
+    plt.xlabel('Episode')
+    plt.ylabel('Reward')
     plt.plot(moving_average(scores, n=n))
 
     if mode == "show":
